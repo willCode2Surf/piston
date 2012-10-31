@@ -1,0 +1,34 @@
+{
+  "name": "piston",
+  "version": "0.0.0",
+  "description": "git repository server b/w pushover and pullover",
+  "main": "index.js",
+  "dependencies": {
+    "routes": "~0.1.1",
+    "pullover": "0.0.0",
+    "pushover": "~1.1.0",
+    "hubhook": "0.0.0",
+    "tar": "~0.1.13",
+    "rimraf": "~2.0.2",
+    "minilog": "~0.1.0",
+    "colors": "~0.6.0-1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node ./bin/piston",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "piston": "./bin/piston"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jesusabdullah/piston.git"
+  },
+  "keywords": [
+    "git",
+    "server"
+  ],
+  "author": "Prototypable",
+  "license": "MIT/X11"
+}

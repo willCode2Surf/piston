@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+var http = require('http'),  // TODO: https?
+    util = require('util');
+
+require('colors');
+
+var piston = require('../index');
+
+var server = http.createServer(piston);
+
+require('../lib/splash').forEach(function (l) {
+  piston.log.info(l);
+});
+
+server.on('listening', function () {
+  var addr = server.address();
+  piston.log.info(util.format(
+    'PISTON'.cyan + ' listening on http://%s:%d', addr.address, addr.port
+  ));
+});
+
+server.listen(31337);
