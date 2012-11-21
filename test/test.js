@@ -3,14 +3,22 @@ var path = require('path'),
     spawn = require('child_process').spawn;
 
 var test = require('tap').test,
+    async = require('async'),
     request = require('request');
 
-function tests(t, done) {
-  request('http://localhost:31337', function (err, res, body) {
-    t.assert(!err, 'req `/`: no error');
-    t.equal(res.statusCode, 200, 'req `/`: status 200');
-    done();
-  });
+var url = 'http://localhost:31337';
+
+// Actual Tests
+function tests(t, finish) {
+  async.parallel([
+    function (done) {
+      request(url + '/', function (err, res, body) {
+        t.assert(!err, 'req `/`: no error');
+        t.equal(res.statusCode, 200, 'req `/`: status 200');
+        done();
+      });
+    }
+  ], finish);
 }
 
 test('piston integration tests', function (t) {
