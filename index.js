@@ -21,7 +21,7 @@ minilog
 
 // pretty-print uncaught exceptions
 process.on('uncaughtException', function (err) {
-  log.error('☠☠☠  ' + 'FLAGRANT ERROR'.red + ' ☠☠☠');
+  log.error('☠☠☠  ' + 'FLAGRANT SYSTEM ERROR'.red + ' ☠☠☠');
 
   if (err.code) {
     log.error('CODE: ' + err.code);
