@@ -5,7 +5,6 @@
   "main": "index.js",
   "dependencies": {
     "routes": "~0.1.1",
-    "pullover": "0.0.0",
     "pushover": "~1.1.0",
     "hubhook": "0.0.0",
     "tar": "~0.1.13",

@@ -15,8 +15,9 @@ require('../lib/splash').forEach(function (l) {
 
 server.on('listening', function () {
   var addr = server.address();
+  piston.address = util.format('http://%s:%d', addr.address, addr.port);
   piston.log.info(util.format(
-    'PISTON'.cyan + ' listening on http://%s:%d', addr.address, addr.port
+    'PISTON'.cyan + ' listening on %s', piston.address
   ));
 });
 

@@ -4,7 +4,6 @@ var fs = require('fs'),
     http = require('http');
 
 var pushover = require('pushover'),
-    pullover = require('pullover'),
     hubhook = require('hubhook')(),
     minilog = require('minilog');
 
@@ -22,8 +21,7 @@ var router = require('./lib/router')();
 var repos = pushover(path.resolve('.', 'repos'), {
       autoCreate: true,
       checkout: false
-    }),
-    pull = pullover(repos);
+    });
 
 var app = function (req, res) {
   log.info(util.format(
@@ -35,7 +33,7 @@ var app = function (req, res) {
       // Return a 500. We aren't expecting any otherwise
       // handle-able errors.
       res.statusCode = 500;
-      res.setHeader('content-type': 'application/json');
+      res.setHeader('content-type', 'application/json');
       res.end(JSON.stringify({
         code: 500,
         error: 'Internal System Error',
@@ -57,7 +55,6 @@ var app = function (req, res) {
 
 app.router = router;
 app.repos = repos;
-app.repos.pull = pull.pull.bind(pull);
 app.log = log;
 
 // Call our extra stuff
