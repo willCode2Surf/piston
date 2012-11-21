@@ -5,7 +5,8 @@ var fs = require('fs'),
 
 var pushover = require('pushover'),
     hubhook = require('hubhook')(),
-    minilog = require('minilog');
+    minilog = require('minilog'),
+    mkdirp = require('mkdirp');
 
 require('colors');
 
@@ -17,13 +18,37 @@ minilog
   .format(minilog.backends.nodeConsole.formatNpm)
 ;
 
+// pretty-print uncaught exceptions
+
+process.on('uncaughtException', function (err) {
+  log.error('☠☠☠  ' + 'FLAGRANT ERROR'.red + ' ☠☠☠');
+
+  if (err.code) {
+    log.error('CODE: ' + err.code);
+  }
+
+  log.error(err.message);
+  err.stack.split('\n').forEach(function (l) {
+    log.error(l);
+  });
+
+  process.exit(1);
+});
+
 var router = require('./lib/router')();
 
 // TODO: make repoDir configurable
-var repos = pushover(path.resolve('.', 'repos'), {
+var repoDir = path.resolve('.', 'repos'),
+    repos = pushover(repoDir, {
       autoCreate: true,
       checkout: false
     });
+
+mkdirp(repoDir, function (err) {
+  if (err) {
+    throw err;
+  }
+});
 
 var app = function (req, res) {
   log.info(util.format(
@@ -39,7 +64,7 @@ var app = function (req, res) {
       res.end(JSON.stringify({
         code: 500,
         error: 'Internal System Error',
-        message: error.message
+        message: err instanceof Error ? err.message : String(error)
       }, true, 2));
 
       // Log the error so we at least know about it
