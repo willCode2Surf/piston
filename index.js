@@ -20,7 +20,6 @@ minilog
 ;
 
 // pretty-print uncaught exceptions
-
 process.on('uncaughtException', function (err) {
   log.error('☠☠☠  ' + 'FLAGRANT ERROR'.red + ' ☠☠☠');
 
