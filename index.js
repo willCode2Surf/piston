@@ -1,7 +1,8 @@
 var fs = require('fs'),
     path = require('path'),
     util = require('util'),
-    http = require('http');
+    http = require('http'),
+    crypto = require('crypto');
 
 var pushover = require('pushover'),
     hubhook = require('hubhook')(),
@@ -54,7 +55,42 @@ var app = function (req, res) {
   log.info(util.format(
     '-> %s %s', req.method, req.url
   ));
-  router(req, res, function (err) {
+
+  // ripped from connect
+  var icon;
+  if ('/favicon.ico' == req.url) {
+    if (icon) {
+      res.writeHead(200, icon.headers);
+      res.end(icon.body);
+    }
+    else {
+      return fs.readFile('./favicon.png', function (err, buff) {
+        if (err) {
+          return next(err);
+        }
+
+        icon = {
+          headers: {
+            'Content-Type': 'image/x-icon',
+            'Content-Length': buff.length,
+            'ETag': '"' +
+              crypto
+                .createHash('md5')
+                .update(buff.toString())
+                .digest('hex') + '"',
+            'Cache-Control': 'public, max-age=86400'
+          },
+          body: buff
+        };
+        res.writeHead(200, icon.headers);
+        return res.end(icon.body);
+      });
+    }
+  }
+
+  router(req, res, next);
+
+  function next(err) {
     if (err) {
 
       // Return a 500. We aren't expecting any otherwise
@@ -77,7 +113,7 @@ var app = function (req, res) {
     }
 
     repos.handle(req, res);
-  });
+  };
 };
 
 app.router = router;
