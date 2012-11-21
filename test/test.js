@@ -17,6 +17,13 @@ function tests(t, finish) {
         t.equal(res.statusCode, 200, 'req `/`: status 200');
         done();
       });
+    },
+    function (done) {
+      request(url + '/favicon.ico', function (err, res, body) {
+        t.assert(!err, 'req `/favicon.ico`: no error');
+        t.equal(res.statusCode, 200, 'req `/favicon.ico`: status 200');
+        done();
+      });
     }
   ], finish);
 }
