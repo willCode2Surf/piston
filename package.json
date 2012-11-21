@@ -10,7 +10,9 @@
     "tar": "~0.1.13",
     "rimraf": "~2.0.2",
     "minilog": "~0.1.0",
-    "colors": "~0.6.0-1"
+    "colors": "~0.6.0-1",
+    "ls-r": "~0.2.1",
+    "mkdirp": "~0.3.4"
   },
   "devDependencies": {},
   "scripts": {
