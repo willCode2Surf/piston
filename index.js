@@ -7,6 +7,8 @@ var pushover = require('pushover'),
     hubhook = require('hubhook')(),
     minilog = require('minilog');
 
+require('colors');
+
 // Logging. Pretty npm-style terminal output for now.
 // minilog is flexible since it's Just Streams.
 var log = minilog('piston');
@@ -56,11 +58,16 @@ var app = function (req, res) {
 app.router = router;
 app.repos = repos;
 app.log = log;
+app.use = use;
+
+function use(lib) {
+  log.info(util.format('(using ' + '%s'.cyan + ')', lib));
+  require(lib)(this);
+}
 
 // Call our extra stuff
-//require('./lib/users')(app); // should piston have a sense of users?
-                               // where does this come from?
-require('./lib/webhooks')(app); // github-style POST hooks (for gh sync)
-require('./lib/repos')(app); // TODO: Additional API calls (DELETE, ????)
+//app.use('./lib/users'); // should piston have a sense of users?
+app.use('./lib/repos'); // TODO: Additional API calls (DELETE, ????)
+app.use('./lib/webhooks'); // github-style POST hooks (for gh sync)
 
 module.exports = app;
