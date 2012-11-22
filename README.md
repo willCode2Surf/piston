@@ -1,4 +1,4 @@
-# piston
+# piston [![build status](https://secure.travis-ci.org/jesusabdullah/piston.png)](http://travis-ci.org/jesusabdullah/piston)
 ## a lil' git server
 
 ## where we're at:
