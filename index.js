@@ -126,8 +126,8 @@ function use(lib) {
 }
 
 // Call our extra stuff
-//app.use('./lib/users'); // should piston have a sense of users?
-app.use('./lib/repos'); // TODO: Additional API calls (DELETE, ????)
-app.use('./lib/webhooks'); // github-style POST hooks (for gh sync)
+app.use('./lib/repos');
+app.use('./lib/mirror');
+app.use('./lib/webhooks');
 
 module.exports = app;
